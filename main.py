@@ -12,7 +12,7 @@ ws = create_connection(uri)
 data = {
         "event": "bts:subscribe",
         "data": {
-            "channel": "live_trades_btcusd"
+            "channel": "live_trades_etheur"
         }
     }
 data_json = json.dumps(data)
@@ -25,16 +25,13 @@ line1 = []
 while True:
     try:
         result = ws.recv()
-        # dict_str = result.decode("UTF-8")
-        # mydata = ast.literal_eval(dict_str)
-        # print(repr(mydata))
         obj = json.loads(result)
         if bool(obj['data']) :
             price = obj['data']['price']
             y_vec[-1] = price
             line1 = live_plotter(x_vec,y_vec,line1)
             y_vec = np.append(y_vec[1:],0.0)
-            print(price)
+            print(obj)
     except Exception as e:
         print(e)
         break
